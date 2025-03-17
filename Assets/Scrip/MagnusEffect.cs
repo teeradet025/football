@@ -2,15 +2,36 @@ using UnityEngine;
 
 public class MagnusEffect : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    Rigidbody rb;
+    [SerializeField] Vector3 Velocity, Spin;
+    
+    
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
+            Kick();
+        }
+        ApplyMagnusEffect();
+
+    }
+
+    void Kick()
+    {
+        rb.linearVelocity = Velocity;
+        rb.angularVelocity = Spin;
+    }
+
+    void ApplyMagnusEffect()
+    {
+        Vector3 magnusForce = Vector3.Cross(rb.linearVelocity,rb.angularVelocity);
+
+        rb.AddForce(magnusForce, ForceMode.Force);
     }
 }
